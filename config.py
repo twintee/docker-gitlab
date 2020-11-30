@@ -11,7 +11,6 @@ dir_scr = dirname(abspath(__file__))
 import helper as fn
 
 def main(_args):
-    print("----- redis env setting start.")
 
     env_org = join(dir_scr, "_org", '.env')
     env_file = join(dir_scr, '.env')

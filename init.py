@@ -33,7 +33,10 @@ def main():
         "docker-compose down",
         "docker-compose up -d",
     ]
-    for line in fn.cmdlines(_cmd=cmds):
+    for line in fn.cmdlines(_cmd="docker-compose down"):
+        sys.stdout.write(line)
+
+    for line in fn.cmdlines(_cmd="docker-compose up -d"):
         sys.stdout.write(line)
 
     localhost = fn.local_ip()
@@ -41,15 +44,20 @@ def main():
 ----------gitlab started.
 
 add to hosts.
-
+-----
 {localhost} gitlab.{domain} mattermost.{domain} registry.{domain}
+-----
 
-----------wait 10s to generate admin password""")
+----------wait 5min to start gitlab
+check status [docker-compose logs gitlab]
 
-    print(f"access to http://gitlab.{domain}/")
-    print("""\
+access to http://gitlab.{domain}/
 
-----------container initialize end.""")
+and set root account password
+
+""")
+
+    print("----------container initialize end.")
 
 # call main
 if __name__ == "__main__":

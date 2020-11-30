@@ -2,9 +2,10 @@ version: '2'
 
 services:
   gitlab:
-    build:
-      context: gitlab
-    image: 'gitlab-image'
+    # build:
+    #   context: gitlab
+    # image: 'gitlab-image'
+    image: gitlab/gitlab-ce:latest
     container_name: $CONTAINER_NAME
     environment:
       TZ: "$TZ"
@@ -18,7 +19,6 @@ services:
       # - "$PORT_EXTERNAL2:443"
     working_dir: /root
     volumes:
-      - './home:/root'
       - './vol/config:/etc/gitlab'
       - './vol/logs:/var/log/gitlab'
       - './vol/data:/var/opt/gitlab'
