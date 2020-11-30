@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 ADD ./.bashrc /root
 ADD ./.vimrc /root
-ADD ./git-prompt.sh /root
+ADD ./.git-prompt.sh /root
 
 RUN apt-get install -y tzdata && \
     cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
