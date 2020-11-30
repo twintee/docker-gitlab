@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: $CONTAINER_NAME
+    environment:
+      TZ: "$TZ"
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.$DOMAIN'
+        mattermost_external_url 'http://mattermost.$DOMAIN'
+        registry_external_url 'http://registry.$DOMAIN'
+      GITLAB_URL: 'http://gitlab.$DOMAIN'
+    ports:
+      - "$PORT_EXTERNAL:80"
+      # - "$PORT_EXTERNAL2:443"
+    working_dir: /root
+    volumes:
+      - './sh:/tmp/sh'
+      - './home:/root'
+      - './vol/config:/etc/gitlab'
+      - './vol/logs:/var/log/gitlab'
+      - './vol/data:/var/opt/gitlab'
+    restart: always
+    mem_limit: $MEM
+
