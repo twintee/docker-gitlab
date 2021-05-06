@@ -13,7 +13,6 @@ services:
         external_url 'http://gitlab.$DOMAIN'
         mattermost_external_url 'http://mattermost.$DOMAIN'
         registry_external_url 'http://registry.$DOMAIN'
-      GITLAB_URL: 'http://gitlab.$DOMAIN'
     ports:
       - "$PORT_EXTERNAL:80"
       # - "$PORT_EXTERNAL2:443"

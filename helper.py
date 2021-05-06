@@ -8,7 +8,6 @@ import random, string
 import socket
 import shutil
 import subprocess
-from dotenv import load_dotenv
 
 def randstr(n):
    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))

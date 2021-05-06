@@ -4,35 +4,33 @@
 import sys
 import os
 from os.path import join, dirname, abspath, isfile, isdir
+import shutil
+
+import helper as fn
 
 dir_scr = dirname(abspath(__file__))
-import helper as fn
+os.chdir(dir_scr)
 
 def main():
     """
     initialize container
     """
+
+    env_org = join(dir_scr, '_org', '.env')
+    env_dst = join(dir_scr, '.env')
+    if not isfile(env_dst):
+        shutil.copyfile(env_org, env_dst)
+
+    if not fn.input_yn("initialize container. ok? (y/*) :"):
+        print("[info] initialize container canceled.")
+
     # .env読み込み
-    param = fn.getenv(".env")
+    param = fn.getenv(env_dst)
 
     # 環境変数を参照
-    container = param['CONTAINER_NAME']
     domain = param['DOMAIN']
 
-    os.chdir(dir_scr)
-    dir_vol = join(dir_scr, 'vol')
-
-    # reset volumes
-    fn.rmdir(dir_vol)
-    if not isdir(dir_vol):
-        os.makedirs(dir_vol)
-    os.chmod(dir_vol, 0o777)
-
     # コンテナ削除
-    cmds = [
-        "docker-compose down",
-        "docker-compose up -d",
-    ]
     for line in fn.cmdlines(_cmd="docker-compose down"):
         sys.stdout.write(line)
 
@@ -43,11 +41,13 @@ def main():
     print(f"""\
 ----------gitlab started.
 
-add to hosts.
+add hosts.
 -----
 {localhost} gitlab.{domain} mattermost.{domain} registry.{domain}
 -----
+""")
 
+    print(f"""\
 ----------wait 5min to start gitlab
 check status [docker-compose logs gitlab]
 
@@ -62,7 +62,4 @@ and set root account password
 # call main
 if __name__ == "__main__":
 
-    if fn.input_yn("initialize container. ok? (y/*) :"):
-        main()
-    else:
-        print("[info] initialize container canceled.")
+    main()
